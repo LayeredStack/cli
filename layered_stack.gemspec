@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version       = '>=3.3.0'
 
   # Files and executables
-  s.files                       = Dir.glob('lib/**/*.rb')
+  s.files                       = Dir.glob('lib/**/*.rb') + Dir.glob('assets/**/*')
   s.executables                 = ['layered_stack']
 
   # Dependencies

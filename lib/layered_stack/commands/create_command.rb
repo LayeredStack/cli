@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'thor'
 
@@ -6,12 +8,20 @@ module LayeredStack
     module Commands
       class CreateCommand < Thor
         CREATE_NEXT_APP_SWITCHES = "--js --tailwind --eslint --app --src-dir --import-alias @/* --use-npm"
-        NEXT_VERSION = ENV['NEXT_VERSION']
+
         FRONTEND_DIR = "frontend"
-        TEMPLATE_FILES = {
-          File.expand_path("../../../../templates/tailwind.config.js", __FILE__) => "frontend/tailwind.config.js",
-          File.expand_path("../../../../templates/layout.js", __FILE__) => "frontend/src/app/layout.js",
-          File.expand_path("../../../../templates/page.js", __FILE__) => "frontend/src/app/page.js"
+
+        ASSET_FILES = {
+          File.expand_path("../../../../assets/tailwind.config.js", __FILE__) => "frontend/tailwind.config.js",
+          File.expand_path("../../../../assets/layout.js", __FILE__) => "frontend/src/app/layout.js",
+          File.expand_path("../../../../assets/page.js", __FILE__) => "frontend/src/app/page.js",
+          File.expand_path("../../../../assets/images/logo_dark.svg", __FILE__) => "frontend/src/app/logo_dark.svg",
+          File.expand_path("../../../../assets/images/logo_light.svg", __FILE__) => "frontend/src/app/logo_light.svg",
+        }
+
+        LOGO_FILES = {
+          "assets/images/logo_dark.svg" => "frontend/src/app/logo_dark.svg",
+          "assets/images/logo_light.svg" => "frontend/src/app/logo_light.svg",
         }
 
         def self.execute
@@ -21,7 +31,6 @@ module LayeredStack
         no_commands do
           def execute
             puts "> layered_stack/create"
-
             remove_existing_frontend
             run_create_next_app
             Dir.chdir(FRONTEND_DIR) do
@@ -29,6 +38,7 @@ module LayeredStack
               update_package_json
             end
             copy_template_files
+            copy_logo_files
             print_next_steps
           end
 
@@ -42,7 +52,7 @@ module LayeredStack
           end
 
           def run_create_next_app
-            command = "npx create-next-app@#{NEXT_VERSION} #{CREATE_NEXT_APP_SWITCHES} #{FRONTEND_DIR}"
+            command = "npx create-next-app@latest #{CREATE_NEXT_APP_SWITCHES} #{FRONTEND_DIR}"
             run_command(command, "Running create-next-app")
           end
 
@@ -60,14 +70,38 @@ module LayeredStack
 
           def copy_template_files
             puts "\n# Copying template files to the frontend directory"
-            TEMPLATE_FILES.each do |src, dest|
+
+            ASSET_FILES.each do |src, dest|
               FileUtils.cp(src, dest)
             end
           end
 
+          def copy_logo_files
+            puts "\n# Copying logo files to the frontend directory"
+
+            LOGO_FILES.each do |src, dest|
+              copy_logo_file(src, dest)
+            end
+          end
+
+          def copy_logo_file(src, dest)
+            if File.exist?(src)
+              puts "User provided logo exists in assets, copying #{src} to #{dest}"
+              FileUtils.cp(src, dest)
+            else
+              template_src = ASSET_FILES.find { |k, _| k.include?(File.basename(src)) }&.first
+              if template_src
+                puts "Copying default logo #{template_src} to #{dest}"
+                FileUtils.cp(template_src, dest)
+              else
+                puts "Default logo for #{src} not found"
+              end
+            end
+          end
+
           def print_next_steps
-            puts "Start the project with the following command:"
-            puts "\nbundle exec layered_stack start"
+            puts "\n# Start the project with the following command:"
+            puts "bundle exec layered_stack start"
           end
 
           def run_command(command, description)
