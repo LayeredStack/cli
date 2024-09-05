@@ -21,7 +21,7 @@ export default function Home() {
       logoDark={logoDark}
       logoLight={logoLight}
       metadata={metadata}
-      mobileMenuIcon={mobileMenuIcon}
+      // mobileMenuIcon={mobileMenuIcon}
       useTheme={useTheme}
       user={{
         initials: 'TG'
