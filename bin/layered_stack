@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require 'layered_stack'
+LayeredStack::Cli::Runner.start(ARGV)
