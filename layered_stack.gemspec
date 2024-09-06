@@ -26,4 +26,5 @@ Gem::Specification.new do |s|
 
   # Dependencies
   s.add_dependency "thor", "~> 1.3.2"
+  s.add_dependency "rails", ">= 7.0.0"
 end

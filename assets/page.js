@@ -18,6 +18,7 @@ export default function Home() {
 
   return (
     <Page
+      backendUrl="http://localhost:3000"
       logoDark={logoDark}
       logoLight={logoLight}
       metadata={metadata}
