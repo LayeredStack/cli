@@ -5,7 +5,7 @@ gem "rack-cors", "~> 2.0.2"
 if ENV['LAYERED_STACK_ENV'] == 'development'
   gem "layered_stack-rails", path: "../layered_stack/rails", groups: [:development, :test]
 else
-  gem "layered_stack-rails", "~> 0.0.6", groups: [:development, :test]
+  gem "layered_stack-rails", groups: [:development, :test]
 end
 
 after_bundle do

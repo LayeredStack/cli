@@ -1,11 +1,10 @@
 source "https://rubygems.org"
 
 gem "foreman", "0.88.1"
-gem "rails", ">= 7.2.1"
 
 # Use a local copy of the Layered Stack CLI gem in development
 if ENV['LAYERED_STACK_ENV'] == 'development'
   gem "layered_stack", path: "layered_stack/cli"
 else
-  gem "layered_stack", "~> 0.0.6"
+  gem "layered_stack"
 end
