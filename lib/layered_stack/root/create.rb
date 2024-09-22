@@ -46,7 +46,7 @@ module LayeredStack
 
         def check_folder_exists?(folder)
           if File.directory?(folder)
-            logger.info("Directory exists: #{folder}")
+            logger.info("Directory exists: #{folder}, aborting to avoid unintentional overwrite")
             true
           else
             logger.info("Directory does not exist: #{folder}")
@@ -60,7 +60,6 @@ module LayeredStack
           FileUtils.cp_r("#{source}/.", destination)
           logger.info("Templates copied to #{destination}")
         end
-
 
         def rename_devcontainer(folder)
           devcontainer_path = File.join(folder, 'devcontainer')

@@ -3,8 +3,10 @@ gem "rack-cors", "~> 2.0.2"
 
 # Use a local copy of the Layered Stack Rails gem in development
 if ENV['LAYERED_STACK_ENV'] == 'development'
+  gem "layered_stack-nextjs", path: "../layered_stack/nextjs", groups: [:development, :test]
   gem "layered_stack-rails", path: "../layered_stack/rails", groups: [:development, :test]
 else
+  gem "layered_stack-nextjs", groups: [:development, :test]
   gem "layered_stack-rails", groups: [:development, :test]
 end
 
