@@ -1,0 +1,19 @@
+{
+  "name": "Layered Stack Devcontainer",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/rails/devcontainer/features/sqlite3": {}
+  },
+  "forwardPorts": [3000, 3001],
+  "postCreateCommand": "bundle install",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "/tmp/layered-stack-0.0.1.vsix"
+  ]
+}

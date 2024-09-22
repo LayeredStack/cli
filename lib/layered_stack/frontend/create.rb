@@ -12,7 +12,7 @@ module LayeredStack
       FRONTEND_DIR = "frontend"
 
       def self.asset_path(relative_path)
-        File.expand_path("../../../../assets/#{relative_path}", __FILE__)
+        File.expand_path("../../../../templates/frontend/#{relative_path}", __FILE__)
       end
 
       ASSET_FILES = {
@@ -24,8 +24,8 @@ module LayeredStack
       }
 
       LOGO_FILES = {
-        "assets/images/logo_dark.svg" => "frontend/src/app/logo_dark.svg",
-        "assets/images/logo_light.svg" => "frontend/src/app/logo_light.svg",
+        "images/logo_dark.svg" => "frontend/src/app/logo_dark.svg",
+        "images/logo_light.svg" => "frontend/src/app/logo_light.svg",
       }
 
       def self.execute
@@ -50,6 +50,11 @@ module LayeredStack
 
         def logger
           @logger ||= Logger.new(STDOUT)
+        end
+
+        def run_command(command, message)
+          logger.info(message)
+          system(command)
         end
 
         def remove_existing_frontend
@@ -114,11 +119,6 @@ module LayeredStack
               logger.warn("Default logo file #{src} not found")
             end
           end
-        end
-
-        def run_command(command, message)
-          logger.info(message)
-          system(command)
         end
 
         def update_file(file, old_content, new_content)

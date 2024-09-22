@@ -33,8 +33,8 @@ module LayeredStack
         end
 
         def create_new_backend
-          template_path = File.expand_path('../../../assets/backend/template.rb', __dir__)
-          run_command("rails new backend --minimal --devcontainer --template=#{template_path}", 'Creating new Rails application named backend')
+          template_path = File.expand_path('../../../templates/backend/rails_template.rb', __dir__)
+          run_command("rails new backend --minimal --no-devcontainer --template=#{template_path}", 'Creating new Rails application named backend')
         end
       end
     end

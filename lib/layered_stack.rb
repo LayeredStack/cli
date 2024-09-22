@@ -5,12 +5,18 @@ Dir[File.join(__dir__, 'layered_stack/**/*.rb')].each { |file| require_relative 
 
 module LayeredStack
   class Cli < Thor
-    desc "start", "Start"
-    def start
-      Frontend.new.start
-      Backend.new.start
+    # This is a Thor configuration that will exit the program if a command fails
+    def self.exit_on_failure?
+      true
     end
 
+    # Create a new layered stack
+    desc "create", "Create a new layered stack"
+    def create(arg)
+      LayeredStack::Root::Create.execute(arg)
+    end
+
+    # Frontend commands
     class Frontend < Thor
       namespace :frontend
 
@@ -32,6 +38,7 @@ module LayeredStack
     end
     register(Frontend, 'frontend', 'frontend [COMMAND]', 'Commands for the frontend')
 
+    # Backend commands
     class Backend < Thor
       namespace :backend
 
